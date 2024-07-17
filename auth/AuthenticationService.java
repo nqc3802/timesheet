@@ -35,7 +35,7 @@ public class AuthenticationService {
                 .trainner_id(request.getTrainner_id())
                 .salary(request.getSalary())
                 .state(request.getState())
-                .role(request.getRole())
+                .roles(request.getRoles())
                 .build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);

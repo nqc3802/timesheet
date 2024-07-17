@@ -54,9 +54,9 @@ public class User implements UserDetails {
     @Builder.Default
     private String state = "Active";
     // @Enumerated(EnumType.STRING)
-    // @Column(name = "role")
+    // @Column(name = "roles")
     @Builder.Default
-    private String role = "User";
+    private String roles = "User";
     @OneToMany(mappedBy = "user")
     private Set<UserRole> userRole;
 
@@ -74,7 +74,7 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // userRole -> new SimpleGrantedAuthority(userRole.getRole().getName())
 
-        return List.of(new SimpleGrantedAuthority(role));
+        return List.of(new SimpleGrantedAuthority(roles));
     }
 
     @Override

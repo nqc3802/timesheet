@@ -33,7 +33,7 @@ public class UserService {
             return messageUser;
         }
         currentUser.setName(user.getName());
-        currentUser.setDob(currentUser.getDob());
+        currentUser.setDob(user.getDob());
         currentUser.setGender(user.getGender());
         currentUser.setEmail(user.getEmail());
         currentUser.setAddress(user.getAddress());
@@ -44,7 +44,7 @@ public class UserService {
         currentUser.setTrainner_id(user.getTrainner_id());
         currentUser.setSalary(user.getSalary());
         currentUser.setState(user.getState());
-        currentUser.setRole(user.getRole());
+        currentUser.setRoles(user.getRoles());
         return r.save(currentUser);
     }
 
