@@ -9,7 +9,7 @@ import com.example.timesheet.user.User;
 
 @Repository
 public interface UserRoleRepository extends JpaRepository<UserRole, Integer> {
-    // UserRole findByUserId(int user_id);
-    // UserRole findByRoleId(int role_id);
+    UserRole findByUserId(int user_id);
+    UserRole findByRoleId(int role_id);
     Set<UserRole> findByUser(User user);
 }

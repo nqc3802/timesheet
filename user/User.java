@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,11 +14,13 @@ import com.example.timesheet.user_role.UserRole;
 
 // import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 // import jakarta.persistence.EnumType;
 // import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -57,8 +60,9 @@ public class User implements UserDetails {
     // @Column(name = "roles")
     @Builder.Default
     private String roles = "User";
-    @OneToMany(mappedBy = "user")
-    private Set<UserRole> userRole;
+    
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<UserRole> userRoles;
 
     @Override
     public String getUsername() {
@@ -74,7 +78,9 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // userRole -> new SimpleGrantedAuthority(userRole.getRole().getName())
 
-        return List.of(new SimpleGrantedAuthority(roles));
+        // return List.of(new SimpleGrantedAuthority(roles));
+        return userRoles.stream().map(userRole -> new SimpleGrantedAuthority(userRole.getRole().getName()))
+                .collect(Collectors.toList());
     }
 
     @Override
