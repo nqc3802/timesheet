@@ -2,7 +2,6 @@ package com.example.timesheet.user_role;
 
 import com.example.timesheet.role.Role;
 import com.example.timesheet.user.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

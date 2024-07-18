@@ -44,7 +44,6 @@ public class UserService {
         currentUser.setTrainner_id(user.getTrainner_id());
         currentUser.setSalary(user.getSalary());
         currentUser.setState(user.getState());
-        currentUser.setRoles(user.getRoles());
         return r.save(currentUser);
     }
 

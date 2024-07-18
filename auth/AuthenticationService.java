@@ -1,13 +1,19 @@
 package com.example.timesheet.auth;
 
+import java.util.Optional;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.timesheet.config.JwtService;
+import com.example.timesheet.role.Role;
+import com.example.timesheet.role.RoleRepository;
 import com.example.timesheet.user.User;
 import com.example.timesheet.user.UserRepository;
+import com.example.timesheet.user_role.UserRole;
+import com.example.timesheet.user_role.UserRoleRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final UserRoleRepository userRoleRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
@@ -35,9 +43,18 @@ public class AuthenticationService {
                 .trainner_id(request.getTrainner_id())
                 .salary(request.getSalary())
                 .state(request.getState())
-                .roles(request.getRoles())
                 .build();
         userRepository.save(user);
+        // Lấy Role với role_id là 2
+        Optional<Role> defaultRoleOptional = roleRepository.findById(2);
+        Role defaultRole = defaultRoleOptional.orElseThrow(() -> new RuntimeException("Role not found"));
+
+        // Tạo UserRole mới
+        UserRole userRole = UserRole.builder()
+                .user(user)
+                .role(defaultRole)
+                .build();
+        userRoleRepository.save(userRole);
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
