@@ -1,5 +1,6 @@
 package com.example.timesheet.role;
 
+import java.util.List;
 import java.util.Set;
 
 import com.example.timesheet.user_role.UserRole;
@@ -31,5 +32,5 @@ public class Role {
     private String description;
 
     @OneToMany(mappedBy = "role")
-    private Set<UserRole> userRole;
+    private List<UserRole> userRole;
 }

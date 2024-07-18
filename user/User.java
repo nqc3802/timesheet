@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.timesheet.user_role.UserRole;
 
+import jakarta.persistence.CascadeType;
 // import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -60,9 +61,9 @@ public class User implements UserDetails {
     // @Column(name = "roles")
     @Builder.Default
     private String roles = "User";
-    
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private Set<UserRole> userRoles;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<UserRole> userRoles;
 
     @Override
     public String getUsername() {
