@@ -28,6 +28,11 @@ public class BranchService {
         currentBranch.setName(branch.getName());
         currentBranch.setCode(branch.getCode());
         currentBranch.setAddress(branch.getAddress());
+        currentBranch.setBranch_director(branch.getBranch_director());
+        currentBranch.setMorning_start_time(branch.getMorning_start_time());
+        currentBranch.setMorning_end_time(branch.getMorning_end_time());
+        currentBranch.setAfternoon_start_time(branch.getAfternoon_start_time());
+        currentBranch.setAfternoon_end_time(branch.getAfternoon_end_time());
         return branchRepository.save(currentBranch);
     }
 

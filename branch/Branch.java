@@ -1,5 +1,7 @@
 package com.example.timesheet.branch;
 
+import java.sql.Time;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,4 +26,8 @@ public class Branch {
     private String branch_director;
     private String code;
     private String address;
+    private Time morning_start_time;
+    private Time morning_end_time;
+    private Time afternoon_start_time;
+    private Time afternoon_end_time;
 }
