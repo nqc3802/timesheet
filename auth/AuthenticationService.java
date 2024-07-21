@@ -45,11 +45,9 @@ public class AuthenticationService {
                 .state(request.getState())
                 .build();
         userRepository.save(user);
-        // Lấy Role với role_id là 2
         Optional<Role> defaultRoleOptional = roleRepository.findById(2);
         Role defaultRole = defaultRoleOptional.orElseThrow(() -> new RuntimeException("Role not found"));
 
-        // Tạo UserRole mới
         UserRole userRole = UserRole.builder()
                 .user(user)
                 .role(defaultRole)
