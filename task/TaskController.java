@@ -11,29 +11,31 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @CrossOrigin
+@RequestMapping("api/v1/task")
 @RestController
 public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    @GetMapping("/tasks")
+    @GetMapping
     public List<Task> getTasks() {
         return taskService.getTasks();
     }
 
-    @PostMapping("/task/add")
+    @PostMapping
     public Task addNewTask(@RequestBody Task task) {
         return taskService.addNewTask(task);
     }
 
-    @PutMapping("/task/{id}")
+    @PutMapping("/{id}")
     public Task editTask(@PathVariable int id, @RequestBody Task task) {
         return taskService.editTask(task, id);
     }
 
-    @DeleteMapping("/task/{id}")
+    @DeleteMapping("/{id}")
     public Task deleteTask(@PathVariable int id) {
         return taskService.deleteTask(id);
     }

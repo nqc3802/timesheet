@@ -10,35 +10,37 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
+@RequestMapping("api/v1/position")
 @RestController
 public class PositionController {
     @Autowired
     private PositionService positionService;
 
-    @GetMapping("/positions")
+    @GetMapping
     public List<Position> getPositions() {
         return positionService.getPositions();
     }
 
-    @GetMapping("/position/search/{keyword}")
+    @GetMapping("/search/{keyword}")
     public List<Position> search(@PathVariable String keyword) {
         return positionService.search(keyword);
     }
 
-    @PostMapping("/position/add")
+    @PostMapping
     public Position addNewPosition(@RequestBody Position position) {
         return positionService.addNewBranch(position);
     }
 
-    @PutMapping("/position/{id}")
+    @PutMapping("/{id}")
     public Position editPosition(@PathVariable int id, @RequestBody Position position) {
         return positionService.editPosition(id, position);
     }
 
-    @DeleteMapping("/position/{id}")
+    @DeleteMapping("/{id}")
     public Position deletePosition(@PathVariable int id) {
         return positionService.deletePosition(id);
     }

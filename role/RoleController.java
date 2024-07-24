@@ -11,19 +11,21 @@ import io.jsonwebtoken.io.IOException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @CrossOrigin
+@RequestMapping("api/v1/role")
 @RestController
 public class RoleController {
     @Autowired
     private RoleService s;
 
-    @GetMapping("/roles")
+    @GetMapping
     public List<Role> getRoles() throws IOException {
         return s.getRoles();
     }
 
-    @PostMapping("/role/add")
+    @PostMapping
     public Role addNewRole(@RequestBody Role role) {
         return s.addNewRole(role);
     }
