@@ -21,13 +21,13 @@ public class RoleController {
     private RoleService s;
 
     @GetMapping
-    public List<Role> getRoles() throws IOException {
+    public List<RoleDTO> getRoles() throws IOException {
         return s.getRoles();
     }
 
     @PostMapping
-    public Role addNewRole(@RequestBody Role role) {
-        return s.addNewRole(role);
+    public RoleDTO addNewRole(@RequestBody RoleDTO roleDTO) {
+        return s.addNewRole(roleDTO);
     }
 
 }

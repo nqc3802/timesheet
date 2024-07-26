@@ -10,11 +10,14 @@ public class RoleService {
     @Autowired
     private RoleRepository roleRepository;
 
-    public List<Role> getRoles() {
-        return roleRepository.findAll();
+    public List<RoleDTO> getRoles() {
+        List<Role> role = roleRepository.findAll();
+        return RoleMapper.INSTANCE.rolesToRoleDTOs(role);
     }
 
-    public Role addNewRole(Role role) {
-        return roleRepository.save(role);
+    public RoleDTO addNewRole(RoleDTO roleDTO) {
+        Role role = RoleMapper.INSTANCE.roleDTOToRole(roleDTO);
+        Role savedRole = roleRepository.save(role);
+        return RoleMapper.INSTANCE.roleToRoleDTO(savedRole);
     }
 }
