@@ -23,23 +23,23 @@ public class UserController {
     private UserService s;
 
     @GetMapping
-    public List<User> getUsers() throws IOException {
+    public List<UserDTO> getUsers() throws IOException {
         return s.getUsers();
     }
     
     @GetMapping("/{id}")
-    public User getUser(@PathVariable int id) {
+    public UserDTO getUser(@PathVariable int id) {
         return s.getUser(id);
     }
 
     @PutMapping("/{id}")
-    public User editUser(@PathVariable int id, @RequestBody User user) {
+    public UserDTO editUser(@PathVariable int id, @RequestBody User user) {
         return s.editUser(user, id);
     }
 
     @PutMapping("/role/{id}")
     public ResponseEntity<?> editUserRole(@PathVariable int id, @RequestBody List<Integer> role_id) {
-        User updatedUser = s.editUserRole(id, role_id);
+        UserDTO updatedUser = s.editUserRole(id, role_id);
         // if ("User not found".equals(updatedUser.getUsername())) {
         //     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         // }
@@ -50,22 +50,22 @@ public class UserController {
     }
 
     @PutMapping("/resetpassword/{id}")
-    public User resetPassword(@PathVariable int id, @RequestBody User user) {
+    public UserDTO resetPassword(@PathVariable int id, @RequestBody User user) {
         return s.resetPassword(user, id);
     }
 
     @PutMapping("/deactivate/{id}")
-    public User deactivateUser(@PathVariable int id, @RequestBody User user) {
+    public UserDTO deactivateUser(@PathVariable int id, @RequestBody User user) {
         return s.deactivateUser(id, user);
     }
 
     @PutMapping("/activate/{id}")
-    public User activateUser(@PathVariable int id, @RequestBody User user) {
+    public UserDTO activateUser(@PathVariable int id, @RequestBody User user) {
         return s.activateUser(id, user);
     }
 
     @PutMapping("/workingtime/{id}")
-    public User editWorkingTime(@PathVariable int id, @RequestBody User user) {
+    public UserDTO editWorkingTime(@PathVariable int id, @RequestBody User user) {
         return s.editWorkingTime(user, id);
     }
 }

@@ -29,18 +29,20 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<User> getUsers() {
-        return r.findAll();
+    public List<UserDTO> getUsers() {
+        List<User> users = r.findAll();
+        return UserMapper.INSTANCE.usersToUserDTOs(users);
     }
 
-    public User getUser(int id) {
-        return r.findById(id);
+    public UserDTO getUser(int id) {
+        User user = r.findById(id);
+        return UserMapper.INSTANCE.userToUserDTO(user);
     }
 
-    public User editUser(User user, int id) {
+    public UserDTO editUser(User user, int id) {
         User currentUser = r.findById(id);
         if (currentUser == null) {
-            User messageUser = new User();
+            UserDTO messageUser = new UserDTO();
             messageUser.setUsername("User not found");
             return messageUser;
         }
@@ -60,46 +62,50 @@ public class UserService {
         currentUser.setMorning_end_time(user.getMorning_end_time());
         currentUser.setAfternoon_start_time(user.getAfternoon_start_time());
         currentUser.setAfternoon_end_time(user.getAfternoon_end_time());
-        return r.save(currentUser);
+        r.save(currentUser);
+        return UserMapper.INSTANCE.userToUserDTO(currentUser);
     }
 
-    public User resetPassword(User user, int id) {
+    public UserDTO resetPassword(User user, int id) {
         User currentUser = r.findById(id);
         if (currentUser == null) {
-            User messageUser = new User();
+            UserDTO messageUser = new UserDTO();
             messageUser.setUsername("User not found");
             return messageUser;
         }
         currentUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        return r.save(currentUser);
+        r.save(currentUser);
+        return UserMapper.INSTANCE.userToUserDTO(currentUser);
     }
 
-    public User deactivateUser(int id, User user) {
+    public UserDTO deactivateUser(int id, User user) {
         User currentUser = r.findById(id);
         if (currentUser == null) {
-            User messageUser = new User();
+            UserDTO messageUser = new UserDTO();
             messageUser.setUsername("User not found");
             return messageUser;
         }
         currentUser.setState("Inactive");
-        return r.save(currentUser);
+        r.save(currentUser);
+        return UserMapper.INSTANCE.userToUserDTO(currentUser);
     }
 
-    public User activateUser(int id, User user) {
+    public UserDTO activateUser(int id, User user) {
         User currentUser = r.findById(id);
         if (currentUser == null) {
-            User messageUser = new User();
+            UserDTO messageUser = new UserDTO();
             messageUser.setUsername("User not found");
             return messageUser;
         }
         currentUser.setState("Active");
-        return r.save(currentUser);
+        r.save(currentUser);
+        return UserMapper.INSTANCE.userToUserDTO(currentUser);
     }
 
-    public User editUserRole(int id, List<Integer> role_ids) {
+    public UserDTO editUserRole(int id, List<Integer> role_ids) {
         User currentUser = r.findById(id);
         if (currentUser == null) {
-            User messageUser = new User();
+            UserDTO messageUser = new UserDTO();
             messageUser.setUsername("User not found");
             return messageUser;
         }
@@ -120,13 +126,14 @@ public class UserService {
                     userRole.setRole(role);
                     userRoleRepository.save(userRole);
                 });
-        return r.findById(id);
+        r.findById(id);
+        return UserMapper.INSTANCE.userToUserDTO(currentUser);
     }
 
-    public User editWorkingTime(User user, int id) {
+    public UserDTO editWorkingTime(User user, int id) {
         User currentUser = r.findById(id);
         if (currentUser == null) {
-            User messageUser = new User();
+            UserDTO messageUser = new UserDTO();
             messageUser.setUsername("User not found");
             return messageUser;
         }
@@ -134,6 +141,7 @@ public class UserService {
         currentUser.setMorning_end_time(user.getMorning_end_time());
         currentUser.setAfternoon_start_time(user.getAfternoon_start_time());
         currentUser.setAfternoon_end_time(user.getAfternoon_end_time());
-        return r.save(currentUser);
+        r.save(currentUser);
+        return UserMapper.INSTANCE.userToUserDTO(currentUser);
     }
 }
