@@ -12,4 +12,12 @@ public interface UserMapper {
     User userDTOToUser(UserDTO userDTO);
     List<UserDTO> usersToUserDTOs(List<User> users);
     List<User> userDTOsToUsers(List<UserDTO> userDTOs);
+    UserDetailDTO userToUserDetailDTO(User user);
+    User userDetailDTOToUser(UserDetailDTO userDetailDTO);
+    UserResetpasswordDTO userToUserResetpasswordDTO(User user);
+    User userResetpasswordDTOToUser(UserResetpasswordDTO userResetpasswordDTO);
+    UserDeactivateDTO userToUserDeactivateDTO(User user);
+    User userDeactivateDTOToUser(UserDeactivateDTO userDeactivateDTO);
+    UserWorkingtimeDTO userToUserWorkingtimeDTO(User user);
+    User userWorkingtimeDTOToUser(UserWorkingtimeDTO userWorkingtimeDTO);
 }

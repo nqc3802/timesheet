@@ -28,12 +28,12 @@ public class UserController {
     }
     
     @GetMapping("/{id}")
-    public UserDTO getUser(@PathVariable int id) {
+    public UserDetailDTO getUser(@PathVariable int id) {
         return s.getUser(id);
     }
 
     @PutMapping("/{id}")
-    public UserDTO editUser(@PathVariable int id, @RequestBody User user) {
+    public UserDetailDTO editUser(@PathVariable int id, @RequestBody User user) {
         return s.editUser(user, id);
     }
 
@@ -50,22 +50,22 @@ public class UserController {
     }
 
     @PutMapping("/resetpassword/{id}")
-    public UserDTO resetPassword(@PathVariable int id, @RequestBody User user) {
+    public UserResetpasswordDTO resetPassword(@PathVariable int id, @RequestBody User user) {
         return s.resetPassword(user, id);
     }
 
     @PutMapping("/deactivate/{id}")
-    public UserDTO deactivateUser(@PathVariable int id, @RequestBody User user) {
+    public UserDeactivateDTO deactivateUser(@PathVariable int id, @RequestBody User user) {
         return s.deactivateUser(id, user);
     }
 
     @PutMapping("/activate/{id}")
-    public UserDTO activateUser(@PathVariable int id, @RequestBody User user) {
+    public UserDeactivateDTO activateUser(@PathVariable int id, @RequestBody User user) {
         return s.activateUser(id, user);
     }
 
     @PutMapping("/workingtime/{id}")
-    public UserDTO editWorkingTime(@PathVariable int id, @RequestBody User user) {
+    public UserWorkingtimeDTO editWorkingTime(@PathVariable int id, @RequestBody User user) {
         return s.editWorkingTime(user, id);
     }
 }
