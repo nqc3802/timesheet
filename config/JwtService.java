@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -42,7 +43,23 @@ public class JwtService {
     }
 
     public String generateRefreshToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails, jwtRefreshExp, "REFRESH");
+        return generateRefreshToken(new HashMap<>(), userDetails, jwtRefreshExp, "REFRESH");
+    }
+
+    public String generateRefreshToken(
+            Map<String, Object> extraClaims,
+            UserDetails userDetails,
+            long expTime,
+            String tokenType) {
+        extraClaims.put("tokenType", tokenType);
+        return Jwts
+                .builder()
+                .setClaims(extraClaims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expTime))
+                .signWith(GetSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
     }
 
     public String generateToken(
@@ -52,9 +69,9 @@ public class JwtService {
             String tokenType) {
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         extraClaims.put("roles", authorities.stream()
-            .map(GrantedAuthority::getAuthority)
-            .map(role -> role.startsWith("ROLE_") ? role : "ROLE_" + role)
-            .collect(Collectors.toList()));
+                .map(GrantedAuthority::getAuthority)
+                .map(role -> role.startsWith("ROLE_") ? role : "ROLE_" + role)
+                .collect(Collectors.toList()));
 
         extraClaims.put("tokenType", tokenType);
         return Jwts
@@ -72,6 +89,23 @@ public class JwtService {
         @SuppressWarnings("unchecked")
         List<String> roles = (List<String>) claims.get("roles");
         return roles != null ? roles : Collections.emptyList();
+    }
+
+    public String extractTokenType(String token) {
+        Claims claims = extractAllClaims(token);
+        return (String) claims.get("tokenType");
+    }
+
+    public boolean isTokenValid(String jwt) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(GetSignInKey())
+                    .build()
+                    .parseClaimsJws(jwt);
+            return true;
+        } catch (JwtException e) {
+            return false;
+        }
     }
 
     public boolean isTokenValid(String jwt, UserDetails userDetails) {

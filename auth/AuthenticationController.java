@@ -8,6 +8,9 @@ import com.example.timesheet.user.User;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
@@ -43,6 +46,18 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refreshAccessToken(@RequestBody Map<String, String> body) {
+        String refreshToken = body.get("refreshToken");
+        try {
+            AuthenticationResponse response = authenticationService.refreshAccessToken(refreshToken);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Invalid refresh token");
+        }
     }
 
 }

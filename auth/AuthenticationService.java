@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -74,4 +75,16 @@ public class AuthenticationService {
                 .build();
     }
 
+    public AuthenticationResponse refreshAccessToken(String refreshToken) {
+        if (jwtService.isTokenValid(refreshToken) && "REFRESH".equals(jwtService.extractTokenType(refreshToken))) {
+            String username = jwtService.extractUsername(refreshToken);
+            UserDetails userDetails = userRepository.findByUsername(username).orElseThrow();
+            String newAccessToken = jwtService.generateToken(userDetails);
+            return AuthenticationResponse.builder()
+                    .token(newAccessToken)
+                    .build();
+        } else {
+            throw new RuntimeException("Invalid refresh token");
+        }
+    }
 }
