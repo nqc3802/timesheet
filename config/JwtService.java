@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,8 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "OKxUKbXHsMj5ghURasYgL6jdb0HNqzsZsDzce1q7fyzU8+OfTLHfiYP1dGXXOxa7RLPAJdqq7DzQRBVQ++ToUMKYjcWJUish4jMiPhis/xoOoir4WXE/DoPsAZT6Eb8KiXCAKrITmNW8gGPeMZnJhQYFUt3byAyKtPyeyPueuG/CjInR5Ns4ULKdrGb7cHP2MXZHDiOF/Nftu/o1QtNXxq0KCM9nYl41yy9LNqB/yEVySJe932lqzWDGeeFapI+fbiZP+t+UuR6ZO1sXcr7enoFxLuMIA3sV4O4FIaO9gj77FVOhMQP9FG7Y5zFWl66OoWFXWBBP1chvlLH/ur7o2yrjwLNaJbsG3VPzqqkeztw=";
+    @Value("${secret_key}")
+    private String SECRET_KEY;
     private static final long jwtExp = 1000 * 60 * 60; // 60 minute
     private static final long jwtRefreshExp = 1000 * 60 * 60 * 24 * 7; // 1 week
 

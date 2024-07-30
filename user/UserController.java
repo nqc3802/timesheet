@@ -72,7 +72,7 @@ public class UserController {
         return s.activateUser(id, user);
     }
 
-    @PreAuthorize("hasRole('ROLE_BasicUser')")
+    @PreAuthorize("hasAnyRole('ROLE_Admin', 'ROLE_BasicUser')")
     @PutMapping("/workingtime/{id}")
     public UserWorkingtimeDTO editWorkingTime(@PathVariable int id, @RequestBody User user) {
         return s.editWorkingTime(user, id);
