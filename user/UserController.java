@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,21 +23,25 @@ public class UserController {
     @Autowired
     private UserService s;
 
+    @PreAuthorize("hasRole('ROLE_Admin')")
     @GetMapping
     public List<UserDTO> getUsers() throws IOException {
         return s.getUsers();
     }
     
+    @PreAuthorize("hasRole('ROLE_Admin')")
     @GetMapping("/{id}")
     public UserDetailDTO getUser(@PathVariable int id) {
         return s.getUser(id);
     }
 
+    @PreAuthorize("hasRole('ROLE_Admin')")
     @PutMapping("/{id}")
     public UserDetailDTO editUser(@PathVariable int id, @RequestBody User user) {
         return s.editUser(user, id);
     }
 
+    @PreAuthorize("hasRole('ROLE_Admin')")
     @PutMapping("/role/{id}")
     public ResponseEntity<?> editUserRole(@PathVariable int id, @RequestBody List<Integer> role_id) {
         UserDTO updatedUser = s.editUserRole(id, role_id);
@@ -49,21 +54,25 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
+    @PreAuthorize("hasRole('ROLE_Admin')")
     @PutMapping("/resetpassword/{id}")
     public UserResetpasswordDTO resetPassword(@PathVariable int id, @RequestBody User user) {
         return s.resetPassword(user, id);
     }
 
+    @PreAuthorize("hasRole('ROLE_Admin')")
     @PutMapping("/deactivate/{id}")
     public UserDeactivateDTO deactivateUser(@PathVariable int id, @RequestBody User user) {
         return s.deactivateUser(id, user);
     }
 
+    @PreAuthorize("hasRole('ROLE_Admin')")
     @PutMapping("/activate/{id}")
     public UserDeactivateDTO activateUser(@PathVariable int id, @RequestBody User user) {
         return s.activateUser(id, user);
     }
 
+    @PreAuthorize("hasRole('ROLE_BasicUser')")
     @PutMapping("/workingtime/{id}")
     public UserWorkingtimeDTO editWorkingTime(@PathVariable int id, @RequestBody User user) {
         return s.editWorkingTime(user, id);
