@@ -3,10 +3,15 @@ package com.example.timesheet.config;
 import java.security.Key;
 
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -33,17 +38,25 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails, jwtExp);
+        return generateToken(new HashMap<>(), userDetails, jwtExp, "ACCESS");
     }
 
     public String generateRefreshToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails, jwtRefreshExp);
+        return generateToken(new HashMap<>(), userDetails, jwtRefreshExp, "REFRESH");
     }
 
     public String generateToken(
             Map<String, Object> extraClaims,
             UserDetails userDetails,
-            long expTime) {
+            long expTime,
+            String tokenType) {
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        extraClaims.put("roles", authorities.stream()
+            .map(GrantedAuthority::getAuthority)
+            .map(role -> role.startsWith("ROLE_") ? role : "ROLE_" + role)
+            .collect(Collectors.toList()));
+
+        extraClaims.put("tokenType", tokenType);
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -52,6 +65,13 @@ public class JwtService {
                 .setExpiration(new Date(System.currentTimeMillis() + expTime))
                 .signWith(GetSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public List<String> extractRoles(String token) {
+        Claims claims = extractAllClaims(token);
+        @SuppressWarnings("unchecked")
+        List<String> roles = (List<String>) claims.get("roles");
+        return roles != null ? roles : Collections.emptyList();
     }
 
     public boolean isTokenValid(String jwt, UserDetails userDetails) {
