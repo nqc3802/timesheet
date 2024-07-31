@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
     List<Project> findById(int id);
+    void deleteByCustomer_id(int id);
 }

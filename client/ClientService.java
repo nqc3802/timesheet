@@ -4,11 +4,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.timesheet.project.ProjectRepository;
 
 @Service
 public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
 
     public List<Client> getClients() {
         return clientRepository.findAll();
@@ -35,8 +41,12 @@ public class ClientService {
         return clientRepository.findByNameContainingOrAddressContaining(keyword, keyword);
     }
 
-    public Client deleteClient(int id) {
-        return clientRepository.deleteById(id);
+    @Transactional
+    public void deleteClient(int id) {
+        projectRepository.deleteByCustomer_id(id);
+        clientRepository.deleteById(id);
+        System.out.println("Client deleted");
+        // throw new RuntimeException("Failed to delete client");
     }
 
 }
