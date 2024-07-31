@@ -104,7 +104,7 @@ public class JwtService {
                     .setSigningKey(GetSignInKey())
                     .build()
                     .parseClaimsJws(jwt);
-            return true;
+            return  !isTokenExpired(jwt);
         } catch (JwtException e) {
             return false;
         }
