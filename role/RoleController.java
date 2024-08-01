@@ -7,8 +7,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.jsonwebtoken.io.IOException;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +21,7 @@ public class RoleController {
     private RoleService s;
 
     @GetMapping
-    public List<RoleDTO> getRoles() throws IOException {
+    public List<RoleDTO> getRoles() {
         return s.getRoles();
     }
 

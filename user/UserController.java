@@ -1,6 +1,5 @@
 package com.example.timesheet.user;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_Admin')")
     @GetMapping
-    public List<UserDTO> getUsers() throws IOException {
+    public List<UserDTO> getUsers() {
         return s.getUsers();
     }
     
