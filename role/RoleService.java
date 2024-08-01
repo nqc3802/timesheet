@@ -20,4 +20,8 @@ public class RoleService {
         Role savedRole = roleRepository.save(role);
         return RoleMapper.INSTANCE.roleToRoleDTO(savedRole);
     }
+
+	public List<RoleProjection> getUsersByRoleId(int id) {
+        return roleRepository.findRoleWithUsers(id);
+	}
 }

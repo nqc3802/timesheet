@@ -64,7 +64,7 @@ public class User implements UserDetails {
     private Time afternoon_end_time = Time.valueOf("17:30:00");
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<UserRole> userRoles;
 
     @Override

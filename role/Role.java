@@ -3,8 +3,8 @@ package com.example.timesheet.role;
 import java.util.List;
 
 import com.example.timesheet.user_role.UserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,6 +30,7 @@ public class Role {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-    private List<UserRole> userRole;
+    @JsonIgnore
+    @OneToMany(mappedBy = "role")
+    private List<UserRole> userRoles;
 }
