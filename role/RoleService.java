@@ -3,6 +3,10 @@ package com.example.timesheet.role;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,9 +14,11 @@ public class RoleService {
     @Autowired
     private RoleRepository roleRepository;
 
-    public List<RoleDTO> getRoles() {
-        List<Role> role = roleRepository.findAll();
-        return RoleMapper.INSTANCE.rolesToRoleDTOs(role);
+    public Page<RoleDTO> getRoles(int page, int size, String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        // Page<Role> role = roleRepository.findAllAndSort(pageable);
+        Page<Role> role = roleRepository.findAll(pageable);
+        return RoleMapper.INSTANCE.rolesToRoleDTOsPage(role);
     }
 
     public RoleDTO addNewRole(RoleDTO roleDTO) {
