@@ -28,9 +28,9 @@ public class RoleController {
     public Page<RoleDTO> getRoles(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "2") int size,
-            @RequestParam(defaultValue = "name") String sort
-            ) {
-        return s.getRoles(page, size, sort);
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDir) {
+        return s.getRoles(page, size, sortBy, sortDir);
     }
 
     @PostMapping

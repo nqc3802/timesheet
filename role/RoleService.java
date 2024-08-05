@@ -14,8 +14,10 @@ public class RoleService {
     @Autowired
     private RoleRepository roleRepository;
 
-    public Page<RoleDTO> getRoles(int page, int size, String sort) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+    public Page<RoleDTO> getRoles(int page, int size, String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
         // Page<Role> role = roleRepository.findAllAndSort(pageable);
         Page<Role> role = roleRepository.findAll(pageable);
         return RoleMapper.INSTANCE.rolesToRoleDTOsPage(role);
