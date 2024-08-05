@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,9 +32,10 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<UserDTO> getUsers() {
-        List<User> users = r.findAll();
-        return UserMapper.INSTANCE.usersToUserDTOs(users);
+    public Page<UserDTO> getUsers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<User> userPage = r.findAll(pageable);
+        return UserMapper.INSTANCE.usersToUserDTOsPage(userPage);
     }
 
     public UserDetailDTO getUser(int id) {
